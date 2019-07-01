@@ -7,7 +7,7 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.blueGrey.shade900,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -25,6 +25,29 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+  List<Widget> scoreKeeper = [
+
+  ];
+
+  List<String> question = [
+    'Ikan bisa berenang',
+    'UGM berada di Kota Yogyakarta'
+  ];
+
+  List<bool> answer =[
+    true,
+    true,
+  ];
+
+  int questionNumber = 0;
+
+  void jawab(){
+    setState(() {
+      questionNumber++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,12 +59,15 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  question[questionNumber],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 43.0,
+                  ),
                 ),
               ),
             ),
@@ -61,7 +87,15 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = answer[questionNumber];
+                if(correctAnswer==true)
+                  print('benar');
+//                jawab(true);
+                if(correctAnswer==false)
+                  print('salah');
+//                  jawab(false);
                 //The user picked true.
+
               },
             ),
           ),
@@ -79,11 +113,15 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                jawab();
                 //The user picked false.
               },
             ),
           ),
         ),
+        Row(
+          children: scoreKeeper,
+        )
         //TODO: Add a Row here as your score keeper
       ],
     );
