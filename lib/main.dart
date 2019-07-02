@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
   @override
+
+
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -21,32 +27,40 @@ class Quizzler extends StatelessWidget {
 
 class QuizPage extends StatefulWidget {
   @override
+
   _QuizPageState createState() => _QuizPageState();
 }
 
 class _QuizPageState extends State<QuizPage> {
 
+  void checkAnswer(bool answerGiven){
+    setState(() {
+
+
+    bool keyAnswer = quizBrain.getQuestionAnswer();
+    if(answerGiven == keyAnswer){
+      scoreKeeper.add(Icon(
+        Icons.check,
+        color: Colors.green,
+      ));
+    }
+    else{
+      scoreKeeper.add(Icon(
+        Icons.close,
+        color: Colors.red,
+      ));
+    }
+    quizBrain.nextQuestion();
+    });
+
+  }
+
   List<Widget> scoreKeeper = [
 
   ];
 
-  List<String> question = [
-    'Ikan bisa berenang',
-    'UGM berada di Kota Yogyakarta'
-  ];
 
-  List<bool> answer =[
-    true,
-    true,
-  ];
 
-  int questionNumber = 0;
-
-  void jawab(){
-    setState(() {
-      questionNumber++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +76,11 @@ class _QuizPageState extends State<QuizPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  question[questionNumber],
+                  quizBrain.getQuestionText(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 43.0,
+                      color: Colors.white,
+                    fontSize: 23.0,
                   ),
                 ),
               ),
@@ -87,14 +101,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = answer[questionNumber];
-                if(correctAnswer==true)
-                  print('benar');
-//                jawab(true);
-                if(correctAnswer==false)
-                  print('salah');
-//                  jawab(false);
-                //The user picked true.
+                checkAnswer(true);
 
               },
             ),
@@ -113,8 +120,8 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                jawab();
-                //The user picked false.
+                checkAnswer(false);
+
               },
             ),
           ),
